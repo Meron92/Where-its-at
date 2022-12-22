@@ -1,43 +1,41 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom'
-import { userContext } from "../Components/Context";
 import styles from './AddToCart.module.css'
+import { useContext, useEffect, useState } from "react";
+import {Link, useLocation} from 'react-router-dom';
+import { userContext } from "../Components/Context";
 
-function AddToCart({ name, date, to, where, price }) {
-    const location = useLocation()
-    const { from } = location.state
-    const { newprod, setNewProd, chosenEvents, setChosenEvents, ticketAmount, setTicketAmount } = useContext(userContext)
-    const prod = location.state.from
 
-    const [count, setCount] = useState(0)
-
-    useEffect(() => {
-        setNewProd([...newprod, { ...prod }]);
-        setTicketAmount(countTicketsAmount);
-    }, [])
-
+function AddToCart() {
+     const location = useLocation()
+     const { from } = location.state
+     const { newprod, setNewProd, chosenEvents, setChosenEvents, ticketAmount, setTicketAmount } = useContext(userContext)
+     const [count, setCount] = useState(0)
    
-
-    useEffect(() => {
-        let currentEventCount = chosenEvents.filter((chosenEvent) => chosenEvent.name == from.name);
-        setTicketAmount(currentEventCount.length)
-         console.log(currentEventCount)
-    }, [chosenEvents])
-
-    function countTicketsAmount() {
-        let currentEventCount = chosenEvents.filter((chosenEvent) => chosenEvent.name == from.name);
-        setTicketAmount(currentEventCount.length);
-        return currentEventCount.length;
-    }
-
-    function countTicketAmountMinus(){
      let currentEventCount = chosenEvents.filter((chosenEvent) => chosenEvent.name == from.name);
-     chosenEvents.pop(name)
-     setChosenEvents([...chosenEvents])
-     setTicketAmount(currentEventCount.length)
-     return currentEventCount.length;
-    }
+      
+     useEffect(() => {
+             setNewProd([...newprod, { ...from }]);
+             setTicketAmount(countTicketsAmount);
+       }, [])
+
+       useEffect(() => {
+         setTicketAmount(currentEventCount.length)
+       }, [chosenEvents])
+       
+       
+       function countTicketsAmount() {
+           setTicketAmount(currentEventCount.length);
+           return currentEventCount.length;     
+         }
+      
+         function countTicketAmountMinus(){
+             chosenEvents.pop(from.name)
+             setChosenEvents([...chosenEvents])
+             setTicketAmount(currentEventCount.length)
+             
+             return currentEventCount.length;
+           }
+
+           console.log(chosenEvents)
 
 
     function countPlus() {
@@ -45,18 +43,19 @@ function AddToCart({ name, date, to, where, price }) {
         countTicketsAmount();
         setChosenEvents([...chosenEvents, from])
     }
-    function countMinus() {
-        setCount( count - from.price)
-        countTicketAmountMinus()
-  
-    }
+     function countMinus() {
+           setCount( count - from.price)
+           countTicketAmountMinus()
+     }
 
     return (
         <section className={styles.center}>
+
             <article>
                 <h1> Event </h1>
                 <p className={styles.txtCenter} >You are about to score some tickets to </p>
             </article>
+
             <article className={styles.info}>
                 <h1 className={styles.title}> {from.name} </h1>
                 <p className={styles.greenText}> {from.date} kl <span> {from.from} - {from.to} </span> </p>
@@ -68,7 +67,7 @@ function AddToCart({ name, date, to, where, price }) {
                 <p><span onClick={countMinus}>-</span> {ticketAmount} <span onClick={countPlus} >+</span></p>
             </article>
 
-            <button className={styles.bttn}> <Link className={styles.btn} to="/SendOrder" state={{ from: { name, date, from, to, where, price, count} }} > Lägg i varukorg </Link></button>
+            <button className={styles.bttn}> <Link className={styles.btn} to="/SendOrder"> Lägg i varukorg </Link></button>
 
         </section>
     )

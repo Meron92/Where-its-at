@@ -7,11 +7,9 @@ export const ContextProvider= props => {
     const [items,setItems]=useState([])
     const [ticketAmount, setTicketAmount] = useState(0);
     const[newprod,setNewProd]=useState([])
-    
-
     const[chosenEvents,setChosenEvents]=useState([])
+    
     const url ='https://my-json-server.typicode.com/majazocom/events/events'
-
 
     useEffect(()=> [
         fetch(url)

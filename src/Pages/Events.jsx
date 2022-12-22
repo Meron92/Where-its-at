@@ -1,33 +1,36 @@
 import React, {useContext, useState} from "react";
-import EventsCard from "../Components/EventsCard";
 import { userContext } from "../Components/Context"
+import EventsCard from "../Components/EventsCard";
 
 const Events = () => {
     const {events}=useContext(userContext)
-    const [findTicket,setFindTicket]=useState([])
+    const [searchTicket,setSearchTicket]=useState([])
 
     function search(e){
-        setFindTicket(e.target.value)
+        setSearchTicket(e.target.value)
     }
-    return(
- 
-       <section>
 
-           <article className="input">
-            <h1>Events </h1>
-            <input type="text" onChange={search} />
-          </article>
-         {
-            events.filter((event)=> {
-                if (findTicket == ""){
-                    return events
-                }
-                else if (event.name.toLowerCase().includes(findTicket.toLowerCase())){
-                    return event.name
-                }
-            }) .map((event, i) =>(
+
+    return( 
+       <section>
+             <article className="input">
+                  <h1>Events </h1>
+                  <input type="text" onChange={search} />
+             </article>
+             
+               {
+                  events.filter((event)=> {
+                          
+                    if (searchTicket == ""){
+                         return events
+                        }
+                         else if (event.name.toLowerCase().includes(searchTicket.toLowerCase())){
+                         return event.name }
+
+
+                }) .map((event, i) =>(
                <EventsCard events={event} name={event.name} date={event.when.date} from={event.when.from} 
-               to={event.when.to} price={event.price} where={event.where}  key={i}  />
+               to={event.when.to} price={event.price} where={event.where} key={i}  />
           ))
          }
           

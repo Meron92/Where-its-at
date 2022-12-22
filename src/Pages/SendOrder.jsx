@@ -5,15 +5,11 @@ import { userContext } from "../Components/Context";
 import TicketUpdate from "../Components/TicketUpdate";
 
 function SendOrder(){
-  const {newprod,setNewProd,chosenEvents, setChosenEvents,setTicketAmount,ticketAmount}=useContext(userContext)
-  // const location =useLocation()
-  // const {from} = location.state
+  const {newprod,chosenEvents}=useContext(userContext)
+
 
   const [subtotal, setSubtotal]=useState(0)
 
-//  let currentEventCount = chosenEvents.filter((chosenEvent) => chosenEvent.name == newprod.name);
-//         setTicketAmount(currentEventCount.length +1)
-//         setChosenEvents([...chosenEvents, from.from])
   
   useEffect(() => {
   let price = 0;
@@ -22,28 +18,26 @@ function SendOrder(){
   })
     setSubtotal(price)
   },)
-
-    return(
-        <section className={styles.center} >
-          <h1>Order</h1>
+  
+  return(
+     <section className={styles.center}>
+        <h1>Order</h1>
+        
          {
-           newprod.map((item,i)=>(
-         
-             <section className={styles.wrapper}  key={i}>
-               <h1 className={styles.title} > {item.name} </h1>
-               <p> {item.date} <span> {item.from}-{item.to} </span></p>
+          newprod.map((item,i)=>(
+              <section className={styles.wrapper}  key={i}>
+                  <h1 className={styles.title} > {item.name} </h1>
+                  <p> {item.date} <span> {item.from}-{item.to} </span></p>
             
-        <TicketUpdate event={item} price={item.price} name={item.name} subtotal={subtotal}  />
-     
-          
-             </section>
-             
+                  <TicketUpdate event={item} price={item.price} name={item.name} subtotal={subtotal}/>
+             </section>    
            ))
          }
+      
         <p>Total värde på order</p>
         <h1>{subtotal}</h1>
         <button> <Link to="/Tickets"> Skicka order</Link> </button>
-        </section>
+    </section>
     )
 }
 
